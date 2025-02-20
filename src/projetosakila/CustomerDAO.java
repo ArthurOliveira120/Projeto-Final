@@ -70,7 +70,15 @@ public class CustomerDAO {
         
     }
     
-    public void deleteCustomer(int id) {
+    public void deleteCustomer(int id) throws SQLException {
+        String sql = "delete from customer"
+                + " where customer_id = ?";
         
+        PreparedStatement pst = con.prepareStatement(sql);
+        
+        pst.setInt(1, id);
+        
+        pst.execute();
+        pst.close();
     }
 }
