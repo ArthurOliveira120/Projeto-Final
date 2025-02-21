@@ -63,11 +63,60 @@ public class CustomerDAO {
             ));
         }
         
+        st.close();
         return customers;
     }
     
-    public void updateCustomer(int id) {
+    public Customer getCustomer(int id) throws SQLException {
+        Customer c = null;
         
+        String query = "select * from customer"
+                + " where customer_id = " + id;
+        
+        Statement st = con.createStatement();
+        
+        ResultSet rs = st.executeQuery(query);
+        
+        while (rs.next()) {
+            c = new Customer(rs.getInt(1),
+                            rs.getInt(2),
+                            rs.getString(3),
+                            rs.getString(4),
+                            rs.getString(5),
+                            rs.getInt(6),
+                            rs.getBoolean(7),
+                            rs.getTimestamp(8),
+                            rs.getTimestamp(9)
+            );
+        }
+        
+        st.close();
+        
+        return c;
+    }
+    
+    public void updateCustomer(int id, Customer newCustomer) throws SQLException {
+        String sql = "update customer"
+                + " set store_id = ?,"
+                + " first_name = ?,"
+                + " last_name = ?,"
+                + " email = ?,"
+                + " address_id = ?,"
+                + " active = ?"
+                + " where customer_id = ?";
+        
+        PreparedStatement pst = con.prepareStatement(sql);
+        
+        pst.setInt(1, newCustomer.getStore_id());
+        pst.setString(2, newCustomer.getFirst_name());
+        pst.setString(3, newCustomer.getLast_name());
+        pst.setString(4, newCustomer.getEmail());
+        pst.setInt(5, newCustomer.getAddress_id());
+        pst.setBoolean(6, newCustomer.isActive());
+        pst.setInt(7, id);
+        
+        pst.execute();
+        pst.close();
     }
     
     public void deleteCustomer(int id) throws SQLException {

@@ -126,19 +126,19 @@ public class CrudUI extends javax.swing.JFrame {
                             .addComponent(jSeparator1))
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 94, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(100, 100, 100))))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(insertButton, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(50, 50, 50)
+                        .addComponent(viewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(50, 50, 50)
+                        .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(50, 50, 50)
+                        .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(177, 177, 177))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(insertButton, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50)
-                .addComponent(viewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50)
-                .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50)
-                .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(177, 177, 177))
+                .addContainerGap(100, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(100, 100, 100))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -173,35 +173,27 @@ public class CrudUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void updateTable() throws SQLException {
-        new Thread() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(500);
+        
+        List<Customer> customers = dao.getCustomers();
+        DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
+        
+        dtm.getDataVector().removeAllElements();
 
-                    List<Customer> customers = dao.getCustomers();
-                    DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
-
-                    for (Customer c : customers) {
-                        dtm.addRow(new Object[]{
-                            c.getCustomer_id(),
-                            c.getStore_id(),
-                            c.getFirst_name(),
-                            c.getLast_name(),
-                            c.getEmail(),
-                            c.getAddress_id(),
-                            c.isActive(),
-                            c.getCreate_date(),
-                            c.getLast_update()
-                        });
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (SQLException ex) {
-                    Logger.getLogger(CrudUI.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }.start();
+        int rows = jTable1.getRowCount();
+        
+        for (Customer c : customers) {
+            dtm.addRow(new Object[]{
+                c.getCustomer_id(),
+                c.getStore_id(),
+                c.getFirst_name(),
+                c.getLast_name(),
+                c.getEmail(),
+                c.getAddress_id(),
+                c.isActive(),
+                c.getCreate_date(),
+                c.getLast_update()
+            });
+        }
     }
 
     private void viewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewButtonActionPerformed
@@ -216,14 +208,24 @@ public class CrudUI extends javax.swing.JFrame {
         int i = jTable1.getSelectedRow();
 
         if (i != -1) {
-            
+            try {
+                setVisible(false);
+                new UpdateUI(this, (int) jTable1.getValueAt(i, 0)).setVisible(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(CrudUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
             JOptionPane.showMessageDialog(null, "Select a row", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private void insertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertButtonActionPerformed
-
+        try {
+            setVisible(false);
+            new InsertUI(this).setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(CrudUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_insertButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed

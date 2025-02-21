@@ -4,6 +4,8 @@
  */
 package projetosakila;
 
+import java.sql.SQLException;
+
 /**
  *
  * @author arthu
@@ -13,8 +15,11 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        // TODO code application logic here
+    public static void main(String[] args) throws SQLException {
+        CustomerDAO dao = new CustomerDAO();
+        Customer c = dao.getCustomer(612);
+        
+        System.out.println(c);
     }
     
 }
