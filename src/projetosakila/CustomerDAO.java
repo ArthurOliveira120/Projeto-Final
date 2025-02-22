@@ -41,9 +41,20 @@ public class CustomerDAO {
         pst.close();
     }
     
-    public List<Customer> getCustomers() throws SQLException {
+    public List<Customer> getCustomers(int order) throws SQLException {
         List<Customer> customers = new ArrayList<>();
-        String query = "select * from customer order by customer_id desc";
+        String query = "select * from customer";
+        
+        if (order > 1) {
+            if (order == 2) query += " order by first_name";
+            else if (order == 3) query += " order by create_date";
+            else if (order == 4) query += " order by last_update";
+        } else if (order < 0) {
+            if (order == -1) query += " order by customer_id desc";
+            else if (order == -2) query += " order by first_name desc";
+            else if (order == -3) query += " order by create_date desc";
+            else if (order == -4) query += " order by last_update desc";
+        }
         
         Statement st = con.createStatement();
         
