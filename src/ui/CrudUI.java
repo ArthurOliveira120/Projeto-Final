@@ -53,8 +53,10 @@ public class CrudUI extends javax.swing.JFrame {
         jCheckBox1 = new javax.swing.JCheckBox();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
+        jCheckBox2 = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -83,6 +85,7 @@ public class CrudUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTable1.getTableHeader().setReorderingAllowed(false);
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -131,16 +134,23 @@ public class CrudUI extends javax.swing.JFrame {
         });
 
         jCheckBox1.setText("Only Active");
-        jCheckBox1.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jCheckBox1StateChanged(evt);
+        jCheckBox1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCheckBox1ItemStateChanged(evt);
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Customer ID", "Customer ID desc", "Name", "Name desc", "Create date", "Create date desc", "Last update", "Last update desc" }));
-        jComboBox1.setSelectedIndex(1);
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Customer ID", "Name", "Create date", "Last update" }));
 
         jLabel2.setText("Order by:");
+
+        jCheckBox2.setSelected(true);
+        jCheckBox2.setText("Descending");
+        jCheckBox2.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCheckBox2ItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -172,12 +182,10 @@ public class CrudUI extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jCheckBox1)
                                     .addComponent(refreshButton)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(2, 2, 2)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel2)
-                                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGap(26, 26, 26))))))
+                                    .addComponent(jLabel2)
+                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jCheckBox2))
+                                .addGap(28, 28, 28))))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -193,7 +201,9 @@ public class CrudUI extends javax.swing.JFrame {
                         .addComponent(refreshButton)
                         .addGap(34, 34, 34)
                         .addComponent(jCheckBox1)
-                        .addGap(11, 11, 11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jCheckBox2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -225,6 +235,7 @@ public class CrudUI extends javax.swing.JFrame {
         List<Customer> customers = dao.getCustomers(order);
         DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
 
+        jTable1.clearSelection();
         dtm.getDataVector().removeAllElements();
 
         for (Customer c : customers) {
@@ -297,29 +308,19 @@ public class CrudUI extends javax.swing.JFrame {
             case "Customer ID":
                 order = 1;
                 break;
-            case "Customer ID desc":
-                order = -1;
-                break;
             case "Name":
                 order = 2;
-                break;
-            case "Name desc":
-                order = -2;
                 break;
             case "Create date":
                 order = 3;
                 break;
-            case "Create date desc":
-                order = -3;
-                break;
             case "Last update":
                 order = 4;
                 break;
-            case "Last update desc":
-                order = -4;
-                break;
         }
-
+        
+        order *= (jCheckBox2.isSelected() ? -1 : 1);
+        
         try {
             updateTable();
         } catch (SQLException ex) {
@@ -342,7 +343,7 @@ public class CrudUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
-    private void jCheckBox1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jCheckBox1StateChanged
+    private void jCheckBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox1ItemStateChanged
         if (jCheckBox1.isSelected()) {
             try {
                 List<Customer> customersActive = dao.getCustomers(order);
@@ -376,7 +377,16 @@ public class CrudUI extends javax.swing.JFrame {
                 Logger.getLogger(CrudUI.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-    }//GEN-LAST:event_jCheckBox1StateChanged
+    }//GEN-LAST:event_jCheckBox1ItemStateChanged
+
+    private void jCheckBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox2ItemStateChanged
+        order *= -1;
+        try {
+            updateTable();
+        } catch (SQLException ex) {
+            Logger.getLogger(CrudUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jCheckBox2ItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -421,6 +431,7 @@ public class CrudUI extends javax.swing.JFrame {
     private javax.swing.JButton deleteButton;
     private javax.swing.JButton insertButton;
     private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
