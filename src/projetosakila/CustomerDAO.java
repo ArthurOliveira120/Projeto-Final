@@ -131,11 +131,22 @@ public class CustomerDAO {
     }
     
     public void deleteCustomer(int id) throws SQLException {
-        String sql = "delete from customer"
-                + " where customer_id = ?";
+        String sql = "delete from payment where customer_id = ?";
         
         PreparedStatement pst = con.prepareStatement(sql);
+        pst.setInt(1, id);
+        pst.execute();
         
+        sql = "delete from rental where customer_id = ?";
+        
+        pst = con.prepareStatement(sql);
+        pst.setInt(1, id);
+        pst.execute();
+        
+        sql = "delete from customer"
+                + " where customer_id = ?";
+        
+        pst = con.prepareStatement(sql);
         pst.setInt(1, id);
         
         pst.execute();

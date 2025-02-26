@@ -20,13 +20,14 @@ import projetosakila.CustomerDAO;
 public class CrudUI extends javax.swing.JFrame {
 
     private CustomerDAO dao;
-    public int order = -1;
+    public int order;
 
     /**
      * Creates new form CrudUI
      */
     public CrudUI() throws SQLException {
         this.dao = new CustomerDAO();
+        this.order = -1;
         initComponents();
         setLocationRelativeTo(null);
     }
@@ -126,7 +127,7 @@ public class CrudUI extends javax.swing.JFrame {
             }
         });
 
-        refreshButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/refresh.png"))); // NOI18N
+        refreshButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/refresh2.png"))); // NOI18N
         refreshButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 refreshButtonActionPerformed(evt);
@@ -181,10 +182,10 @@ public class CrudUI extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jCheckBox1)
-                                    .addComponent(refreshButton)
                                     .addComponent(jLabel2)
                                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jCheckBox2))
+                                    .addComponent(jCheckBox2)
+                                    .addComponent(refreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(28, 28, 28))))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -198,8 +199,8 @@ public class CrudUI extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(refreshButton)
-                        .addGap(34, 34, 34)
+                        .addComponent(refreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(51, 51, 51)
                         .addComponent(jCheckBox1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jCheckBox2)
@@ -289,12 +290,27 @@ public class CrudUI extends javax.swing.JFrame {
         int i = jTable1.getSelectedRow();
 
         if (i != -1) {
-            try {
-                dao.deleteCustomer((int) jTable1.getValueAt(i, 0));
+            int choice = JOptionPane.showConfirmDialog(
+                    null,
+                    "Are you sure you want to delete this customer?\n"
+                    + jTable1.getValueAt(i, 2) + " " + jTable1.getValueAt(i, 3) + "\n"
+                    + jTable1.getValueAt(i, 4),
+                    "DELETE CUSTOMER",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE
+            );
 
-                updateTable();
-            } catch (SQLException ex) {
-                Logger.getLogger(CrudUI.class.getName()).log(Level.SEVERE, null, ex);
+            if (choice == JOptionPane.YES_OPTION) {
+                try {
+                    dao.deleteCustomer((int) jTable1.getValueAt(i, 0));
+                    updateTable();
+                } catch (SQLException ex) {
+                    Logger.getLogger(CrudUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                JOptionPane.showMessageDialog(null, "Customer deleted successfully.");
+                
+            } else {
+                JOptionPane.showMessageDialog(null, "Deletion cancelled!");
             }
         } else {
             JOptionPane.showMessageDialog(null, "Select a row", "Error", JOptionPane.ERROR_MESSAGE);

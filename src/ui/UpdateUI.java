@@ -67,10 +67,10 @@ public class UpdateUI extends javax.swing.JFrame {
         emailField = new javax.swing.JTextField();
         lastNameField = new javax.swing.JTextField();
         firstNameField = new javax.swing.JTextField();
-        storeIdField = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        storeIdComboBox = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -117,8 +117,6 @@ public class UpdateUI extends javax.swing.JFrame {
 
         firstNameField.setText(c.getFirst_name());
 
-        storeIdField.setText(c.getStore_id()+"");
-
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jButton1.setText("Update");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -134,6 +132,9 @@ public class UpdateUI extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("Created at: "+c.getCreate_date());
+
+        storeIdComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Store 1", "Store 2" }));
+        storeIdComboBox.setSelectedIndex(c.getStore_id()-1);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -155,14 +156,14 @@ public class UpdateUI extends javax.swing.JFrame {
                         .addComponent(jLabel4)
                         .addGap(25, 25, 25)
                         .addComponent(lastNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.CENTER, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2))
                         .addGap(23, 23, 23)
-                        .addComponent(firstNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.CENTER, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(37, 37, 37)
-                        .addComponent(storeIdField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(storeIdComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(firstNameField, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))))
                 .addGap(73, 73, 73))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -195,9 +196,9 @@ public class UpdateUI extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(storeIdField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(storeIdComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(firstNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -245,8 +246,7 @@ public class UpdateUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if (storeIdField.getText().equals("")
-                || firstNameField.getText().equals("")
+        if (firstNameField.getText().equals("")
                 || lastNameField.getText().equals("")
                 || emailField.getText().equals("")
                 || addressIdField.getText().equals("")
@@ -255,7 +255,7 @@ public class UpdateUI extends javax.swing.JFrame {
         } else {
             try {
                 Customer newCustomer = new Customer(
-                        Integer.parseInt(storeIdField.getText()),
+                        storeIdComboBox.getSelectedIndex()+1,
                         firstNameField.getText(),
                         lastNameField.getText(),
                         emailField.getText(),
@@ -334,6 +334,6 @@ public class UpdateUI extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField lastNameField;
-    private javax.swing.JTextField storeIdField;
+    private javax.swing.JComboBox<String> storeIdComboBox;
     // End of variables declaration//GEN-END:variables
 }
