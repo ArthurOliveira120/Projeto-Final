@@ -45,16 +45,12 @@ public class CustomerDAO {
         List<Customer> customers = new ArrayList<>();
         String query = "select * from customer";
         
-        if (order > 1) {
-            if (order == 2) query += " order by first_name";
-            else if (order == 3) query += " order by create_date";
-            else if (order == 4) query += " order by last_update";
-        } else if (order < 0) {
-            if (order == -1) query += " order by customer_id desc";
-            else if (order == -2) query += " order by first_name desc";
-            else if (order == -3) query += " order by create_date desc";
-            else if (order == -4) query += " order by last_update desc";
-        }
+        if (Math.abs(order) == 1) query += " order by customer_id";
+        else if (Math.abs(order) == 2) query += " order by first_name";
+        else if (Math.abs(order) == 3) query += " order by create_date";
+        else if (Math.abs(order) == 4) query += " order by last_update";
+        
+        if (order < 0) query += " desc";
         
         Statement st = con.createStatement();
         

@@ -142,6 +142,11 @@ public class CrudUI extends javax.swing.JFrame {
         });
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Customer ID", "Name", "Create date", "Last update" }));
+        jComboBox1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox1ItemStateChanged(evt);
+            }
+        });
 
         jLabel2.setText("Order by:");
 
@@ -232,8 +237,12 @@ public class CrudUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void updateTable() throws SQLException {
-
+        order = jComboBox1.getSelectedIndex() + 1;
+        
+        order *= (jCheckBox2.isSelected() ? -1 : 1);
+        
         List<Customer> customers = dao.getCustomers(order);
+        
         DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
 
         jTable1.clearSelection();
@@ -310,7 +319,7 @@ public class CrudUI extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Customer deleted successfully.");
                 
             } else {
-                JOptionPane.showMessageDialog(null, "Deletion cancelled!");
+                JOptionPane.showMessageDialog(null, "Deletion canceled!");
             }
         } else {
             JOptionPane.showMessageDialog(null, "Select a row", "Error", JOptionPane.ERROR_MESSAGE);
@@ -318,25 +327,6 @@ public class CrudUI extends javax.swing.JFrame {
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
-        String selectedItem = (String) jComboBox1.getSelectedItem();
-
-        switch (selectedItem) {
-            case "Customer ID":
-                order = 1;
-                break;
-            case "Name":
-                order = 2;
-                break;
-            case "Create date":
-                order = 3;
-                break;
-            case "Last update":
-                order = 4;
-                break;
-        }
-        
-        order *= (jCheckBox2.isSelected() ? -1 : 1);
-        
         try {
             updateTable();
         } catch (SQLException ex) {
@@ -403,6 +393,10 @@ public class CrudUI extends javax.swing.JFrame {
             Logger.getLogger(CrudUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jCheckBox2ItemStateChanged
+
+    private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ItemStateChanged
 
     /**
      * @param args the command line arguments

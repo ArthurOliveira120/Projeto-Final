@@ -30,7 +30,6 @@ public class UpdateUI extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         this.dao = new CustomerDAO();
-
     }
 
     public UpdateUI(JFrame crudUI, int customer_id) throws SQLException {
@@ -38,6 +37,7 @@ public class UpdateUI extends javax.swing.JFrame {
         this.c = dao.getCustomer(customer_id);
         this.crudUI = crudUI;
         this.customer_id = customer_id;
+        setUndecorated(true);
         initComponents();
         setLocationRelativeTo(null);
     }
@@ -71,6 +71,7 @@ public class UpdateUI extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         storeIdComboBox = new javax.swing.JComboBox<>();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -136,6 +137,14 @@ public class UpdateUI extends javax.swing.JFrame {
         storeIdComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Store 1", "Store 2" }));
         storeIdComboBox.setSelectedIndex(c.getStore_id()-1);
 
+        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jButton2.setText("Cancel");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -182,8 +191,10 @@ public class UpdateUI extends javax.swing.JFrame {
                     .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(135, 135, 135)
+                .addGap(49, 49, 49)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -223,7 +234,9 @@ public class UpdateUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel9)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
                 .addContainerGap(78, Short.MAX_VALUE))
         );
 
@@ -275,6 +288,13 @@ public class UpdateUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        JOptionPane.showMessageDialog(null, "Update canceled", "UPDATE CUSTOMER", JOptionPane.INFORMATION_MESSAGE);
+        setVisible(false);
+        crudUI.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -320,6 +340,7 @@ public class UpdateUI extends javax.swing.JFrame {
     private javax.swing.JTextField emailField;
     private javax.swing.JTextField firstNameField;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

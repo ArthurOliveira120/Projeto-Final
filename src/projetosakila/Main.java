@@ -16,10 +16,7 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws SQLException {
-        CustomerDAO dao = new CustomerDAO();
-        Customer c = dao.getCustomer(612);
         
-        System.out.println(c);
     }
     
 }
