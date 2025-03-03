@@ -41,9 +41,11 @@ public class CustomerDAO {
         pst.close();
     }
     
-    public List<Customer> getCustomers(int order) throws SQLException {
+    public List<Customer> getCustomers(int order, boolean onlyActive) throws SQLException {
         List<Customer> customers = new ArrayList<>();
         String query = "select * from customer";
+        
+        if (onlyActive) query += " where active = 1";
         
         if (Math.abs(order) == 1) query += " order by customer_id";
         else if (Math.abs(order) == 2) query += " order by first_name";

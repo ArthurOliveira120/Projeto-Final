@@ -173,7 +173,7 @@ public class Customer {
 
     @Override
     public String toString() {
-        return "Customer ID: " + customer_id + "\nStore ID: " + store_id + "\nFirst name: " + first_name + "\nLast name: " + last_name + "\nEmail: " + email + "\nAddress ID: " + address_id + "\nActive: " + active + "\nCreate date: " + create_date + "\nLast update: " + last_update;
+        return "Customer ID: " + customer_id + "\nStore ID: " + store_id + "\nName: " + first_name + " " + last_name + "\nE-mail: " + email + "\nAddress ID: " + address_id + "\nActive: " + (active ? "Yes" : "No") + "\nCreated at: " + create_date + "\nLast update: " + last_update;
     }
     
 }

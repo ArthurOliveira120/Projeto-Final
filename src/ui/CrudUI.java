@@ -20,14 +20,16 @@ import projetosakila.CustomerDAO;
 public class CrudUI extends javax.swing.JFrame {
 
     private CustomerDAO dao;
-    public int order;
+    private int order;
+    private boolean onlyActive;
 
     /**
      * Creates new form CrudUI
      */
     public CrudUI() throws SQLException {
-        this.dao = new CustomerDAO();
-        this.order = -1;
+        dao = new CustomerDAO();
+        order = -1;
+        onlyActive = false;
         initComponents();
         setLocationRelativeTo(null);
     }
@@ -86,6 +88,7 @@ public class CrudUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTable1.getTableHeader().setReorderingAllowed(false);
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -96,6 +99,7 @@ public class CrudUI extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         viewButton.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        viewButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/member-list.png"))); // NOI18N
         viewButton.setText("VIEW");
         viewButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -104,6 +108,7 @@ public class CrudUI extends javax.swing.JFrame {
         });
 
         updateButton.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        updateButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/user-pen.png"))); // NOI18N
         updateButton.setText("UPDATE");
         updateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -112,6 +117,7 @@ public class CrudUI extends javax.swing.JFrame {
         });
 
         insertButton.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        insertButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/user-add.png"))); // NOI18N
         insertButton.setText("INSERT");
         insertButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -120,6 +126,7 @@ public class CrudUI extends javax.swing.JFrame {
         });
 
         deleteButton.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        deleteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/delete-user.png"))); // NOI18N
         deleteButton.setText("DELETE");
         deleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -127,7 +134,7 @@ public class CrudUI extends javax.swing.JFrame {
             }
         });
 
-        refreshButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/refresh2.png"))); // NOI18N
+        refreshButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/refresh.png"))); // NOI18N
         refreshButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 refreshButtonActionPerformed(evt);
@@ -172,26 +179,25 @@ public class CrudUI extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 49, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 780, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(insertButton, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(50, 50, 50)
-                                .addComponent(viewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(50, 50, 50)
-                                .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(50, 50, 50)
-                                .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(177, 177, 177))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 780, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jCheckBox1)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jCheckBox2)
-                                    .addComponent(refreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(28, 28, 28))))))
+                            .addComponent(jCheckBox1)
+                            .addComponent(jLabel2)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCheckBox2)
+                            .addComponent(refreshButton))
+                        .addGap(28, 28, 28))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(insertButton, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50)
+                .addComponent(viewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50)
+                .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50)
+                .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(121, 121, 121))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -204,8 +210,8 @@ public class CrudUI extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(refreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(51, 51, 51)
+                        .addComponent(refreshButton)
+                        .addGap(42, 42, 42)
                         .addComponent(jCheckBox1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jCheckBox2)
@@ -236,16 +242,15 @@ public class CrudUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void updateTable() throws SQLException {
+    public void updateTable() throws SQLException {
         order = jComboBox1.getSelectedIndex() + 1;
         
         order *= (jCheckBox2.isSelected() ? -1 : 1);
         
-        List<Customer> customers = dao.getCustomers(order);
+        List<Customer> customers = dao.getCustomers(order, onlyActive);
         
         DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
 
-        jTable1.clearSelection();
         dtm.getDataVector().removeAllElements();
 
         for (Customer c : customers) {
@@ -302,8 +307,9 @@ public class CrudUI extends javax.swing.JFrame {
             int choice = JOptionPane.showConfirmDialog(
                     null,
                     "Are you sure you want to delete this customer?\n"
-                    + jTable1.getValueAt(i, 2) + " " + jTable1.getValueAt(i, 3) + "\n"
-                    + jTable1.getValueAt(i, 4),
+                    + "ID: " + jTable1.getValueAt(i, 0) + "\n"
+                    + "Name:" + jTable1.getValueAt(i, 2) + " " + jTable1.getValueAt(i, 3) + "\n"
+                    + "E-mail: " + jTable1.getValueAt(i, 4),
                     "DELETE CUSTOMER",
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.WARNING_MESSAGE
@@ -350,38 +356,11 @@ public class CrudUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jCheckBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox1ItemStateChanged
-        if (jCheckBox1.isSelected()) {
-            try {
-                List<Customer> customersActive = dao.getCustomers(order);
-
-                DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
-
-                dtm.getDataVector().removeAllElements();
-
-                for (Customer c : customersActive) {
-                    if (c.isActive()) {
-                        dtm.addRow(new Object[]{
-                            c.getCustomer_id(),
-                            c.getStore_id(),
-                            c.getFirst_name(),
-                            c.getLast_name(),
-                            c.getEmail(),
-                            c.getAddress_id(),
-                            c.isActive(),
-                            c.getCreate_date(),
-                            c.getLast_update()
-                        });
-                    }
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(CrudUI.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-            try {
-                updateTable();
-            } catch (SQLException ex) {
-                Logger.getLogger(CrudUI.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        onlyActive = !onlyActive;
+        try {
+            updateTable();
+        } catch (SQLException ex) {
+            Logger.getLogger(CrudUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jCheckBox1ItemStateChanged
 
@@ -395,7 +374,11 @@ public class CrudUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBox2ItemStateChanged
 
     private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
-        // TODO add your handling code here:
+        try {
+            updateTable();
+        } catch (SQLException ex) {
+            Logger.getLogger(CrudUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jComboBox1ItemStateChanged
 
     /**
