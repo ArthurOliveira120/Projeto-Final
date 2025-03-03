@@ -10,7 +10,6 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import projetosakila.Customer;
 import projetosakila.CustomerDAO;
-import javax.swing.JFrame;
 
 /**
  *

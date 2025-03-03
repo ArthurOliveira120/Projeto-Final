@@ -41,7 +41,7 @@ public class CustomerDAO {
         pst.close();
     }
     
-    public List<Customer> getCustomers(int order, boolean onlyActive) throws SQLException {
+    public List<Customer> getCustomers(int order, boolean onlyActive, int limitTo) throws SQLException {
         List<Customer> customers = new ArrayList<>();
         String query = "select * from customer";
         
@@ -53,6 +53,8 @@ public class CustomerDAO {
         else if (Math.abs(order) == 4) query += " order by last_update";
         
         if (order < 0) query += " desc";
+        
+        if (limitTo != 0) query += " limit " + limitTo;
         
         Statement st = con.createStatement();
         
