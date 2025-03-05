@@ -68,33 +68,44 @@ public class InsertUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setBackground(new java.awt.Color(0, 40, 58));
+
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Insert Customer");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Store ID:");
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("First name:");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Last name:");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Email:");
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Address ID:");
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Active:");
 
         buttonGroup1.add(jRadioButton1);
+        jRadioButton1.setForeground(new java.awt.Color(255, 255, 255));
         jRadioButton1.setSelected(true);
         jRadioButton1.setText("Yes");
 
         buttonGroup1.add(jRadioButton2);
+        jRadioButton2.setForeground(new java.awt.Color(255, 255, 255));
         jRadioButton2.setText("No");
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -119,11 +130,6 @@ public class InsertUI extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jSeparator1)))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -152,6 +158,13 @@ public class InsertUI extends javax.swing.JFrame {
                         .addGap(50, 50, 50)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(45, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator1)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7});
@@ -216,24 +229,32 @@ public class InsertUI extends javax.swing.JFrame {
                 || addressIdField.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Enter all fields", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-
             try {
-                dao.insertCustomer(new Customer(
-                        jComboBox1.getSelectedIndex() + 1,
-                        firstNameField.getText(),
-                        lastNameField.getText(),
-                        emailField.getText(),
-                        Integer.parseInt(addressIdField.getText()),
-                        jRadioButton1.isSelected()
-                ));
+                if (Integer.parseInt(addressIdField.getText()) < 1 || Integer.parseInt(addressIdField.getText()) > 605) {
+                    JOptionPane.showMessageDialog(null,
+                            "Enter a valid address ID!\nValid limit: 1 - 605",
+                            "Error",
+                            JOptionPane.WARNING_MESSAGE);
+                } else {
+                    dao.insertCustomer(new Customer(
+                            jComboBox1.getSelectedIndex() + 1,
+                            firstNameField.getText(),
+                            lastNameField.getText(),
+                            emailField.getText(),
+                            Integer.parseInt(addressIdField.getText()),
+                            jRadioButton1.isSelected()
+                    ));
 
-                crudUI.updateTable();
-                JOptionPane.showMessageDialog(null, "Customer added!", "Sakila", JOptionPane.INFORMATION_MESSAGE);
-                setVisible(false);
-                crudUI.setVisible(true);
-                dispose();
+                    crudUI.updateTable();
+                    JOptionPane.showMessageDialog(null, "Customer added!", "Sakila", JOptionPane.INFORMATION_MESSAGE);
+                    setVisible(false);
+                    crudUI.setVisible(true);
+                    dispose();
+                }
             } catch (SQLException ex) {
                 Logger.getLogger(InsertUI.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Insert only numbers in Address ID!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed

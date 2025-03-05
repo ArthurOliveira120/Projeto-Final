@@ -11,6 +11,8 @@ import java.util.List;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -47,10 +49,20 @@ public class CustomerDAO {
         
         if (onlyActive) query += " where active = 1";
         
-        if (Math.abs(order) == 1) query += " order by customer_id";
-        else if (Math.abs(order) == 2) query += " order by first_name";
-        else if (Math.abs(order) == 3) query += " order by create_date";
-        else if (Math.abs(order) == 4) query += " order by last_update";
+        switch (Math.abs(order)) {
+            case 1:
+                query += " order by customer_id";
+                break;
+            case 2:
+                query += " order by first_name";
+                break;
+            case 3:
+                query += " order by create_date";
+                break;
+            case 4:
+                query += " order by last_update";
+                break;
+        }
         
         if (order < 0) query += " desc";
         
@@ -88,7 +100,7 @@ public class CustomerDAO {
         
         ResultSet rs = st.executeQuery(query);
         
-        while (rs.next()) {
+        if (rs.next()) {
             c = new Customer(rs.getInt(1),
                             rs.getInt(2),
                             rs.getString(3),
@@ -151,5 +163,25 @@ public class CustomerDAO {
         
         pst.execute();
         pst.close();
+    }
+    
+    public int getCountOfRows() {
+        int count = 0;
+        try {
+            String query = "select count(*) from customer";
+            
+            Statement st = con.createStatement();
+            
+            ResultSet rs = st.executeQuery(query);
+            
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+            
+            st.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
     }
 }

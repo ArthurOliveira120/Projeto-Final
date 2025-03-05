@@ -74,33 +74,44 @@ public class UpdateUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setBackground(new java.awt.Color(0, 40, 58));
+
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("UPDATE CUSTOMER");
+        jLabel1.setText("Update Customer");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Store ID:");
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("First name:");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Last name:");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Email:");
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Address ID:");
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Active:");
 
         buttonGroup1.add(jRadioButton1);
+        jRadioButton1.setForeground(new java.awt.Color(255, 255, 255));
         jRadioButton1.setSelected(c.isActive());
         jRadioButton1.setText("Yes");
 
         buttonGroup1.add(jRadioButton2);
+        jRadioButton2.setForeground(new java.awt.Color(255, 255, 255));
         jRadioButton2.setSelected(!c.isActive());
         jRadioButton2.setText("No");
 
@@ -121,10 +132,12 @@ public class UpdateUI extends javax.swing.JFrame {
         });
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("Customer ID: "+c.getCustomer_id());
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("Created at: "+c.getCreate_date());
 
@@ -253,22 +266,31 @@ public class UpdateUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Enter all fields", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
             try {
-                dao.updateCustomer(customer_id, new Customer(
-                        storeIdComboBox.getSelectedIndex() + 1,
-                        firstNameField.getText(),
-                        lastNameField.getText(),
-                        emailField.getText(),
-                        Integer.parseInt(addressIdField.getText()),
-                        jRadioButton1.isSelected()
-                ));
+                if (Integer.parseInt(addressIdField.getText()) < 1 || Integer.parseInt(addressIdField.getText()) > 605) {
+                    JOptionPane.showMessageDialog(null,
+                            "Enter a valid address ID!\nValid limit: 1 - 605",
+                            "Error",
+                            JOptionPane.WARNING_MESSAGE);
+                } else {
+                    dao.updateCustomer(customer_id, new Customer(
+                            storeIdComboBox.getSelectedIndex() + 1,
+                            firstNameField.getText(),
+                            lastNameField.getText(),
+                            emailField.getText(),
+                            Integer.parseInt(addressIdField.getText()),
+                            jRadioButton1.isSelected()
+                    ));
 
-                crudUI.updateTable();
-                JOptionPane.showMessageDialog(null, "Customer updated!", "Sakila", JOptionPane.INFORMATION_MESSAGE);
-                setVisible(false);
-                crudUI.setVisible(true);
-                dispose();
+                    crudUI.updateTable();
+                    JOptionPane.showMessageDialog(null, "Customer updated!", "Sakila", JOptionPane.INFORMATION_MESSAGE);
+                    setVisible(false);
+                    crudUI.setVisible(true);
+                    dispose();
+                }
             } catch (SQLException ex) {
                 Logger.getLogger(InsertUI.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Insert only numbers in Address ID!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed

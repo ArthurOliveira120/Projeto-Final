@@ -68,11 +68,11 @@ public class CrudUI extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(0, 40, 58));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("SAKILA CUSTOMERS - CRUD");
 
-        jScrollPane1.setBackground(new java.awt.Color(32, 71, 91));
+        jScrollPane1.setBackground(new java.awt.Color(38, 38, 38));
         jScrollPane1.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.black, java.awt.Color.darkGray));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -152,7 +152,7 @@ public class CrudUI extends javax.swing.JFrame {
             }
         });
 
-        jCheckBox1.setForeground(new java.awt.Color(204, 204, 204));
+        jCheckBox1.setForeground(new java.awt.Color(255, 255, 255));
         jCheckBox1.setText("Only Active");
         jCheckBox1.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -167,10 +167,10 @@ public class CrudUI extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Order by:");
 
-        jCheckBox2.setForeground(new java.awt.Color(204, 204, 204));
+        jCheckBox2.setForeground(new java.awt.Color(255, 255, 255));
         jCheckBox2.setSelected(true);
         jCheckBox2.setText("Descending");
         jCheckBox2.addItemListener(new java.awt.event.ItemListener() {
@@ -179,14 +179,20 @@ public class CrudUI extends javax.swing.JFrame {
             }
         });
 
-        limitLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        limitLabel.setForeground(new java.awt.Color(204, 204, 204));
+        limitLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        limitLabel.setForeground(new java.awt.Color(255, 255, 255));
+        limitLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         limitLabel.setText("Limit results to: NO LIMIT");
+        limitLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                limitLabelMouseClicked(evt);
+            }
+        });
 
-        jSlider1.setBackground(new java.awt.Color(204, 204, 204));
-        jSlider1.setForeground(new java.awt.Color(204, 204, 204));
+        jSlider1.setBackground(new java.awt.Color(255, 255, 255));
+        jSlider1.setForeground(new java.awt.Color(255, 255, 255));
         jSlider1.setMajorTickSpacing(100);
-        jSlider1.setMaximum(600);
+        jSlider1.setMaximum(dao.getCountOfRows());
         jSlider1.setMinorTickSpacing(50);
         jSlider1.setPaintLabels(true);
         jSlider1.setPaintTicks(true);
@@ -202,15 +208,29 @@ public class CrudUI extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(6, 6, 6)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jSeparator1))
-                        .addContainerGap())
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jSeparator1))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(55, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 49, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(limitLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(300, 300, 300))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(insertButton, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(50, 50, 50)
+                        .addComponent(viewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(50, 50, 50)
+                        .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(50, 50, 50)
+                        .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(121, 121, 121))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 780, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -219,26 +239,7 @@ public class CrudUI extends javax.swing.JFrame {
                             .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jCheckBox2)
                             .addComponent(refreshButton))
-                        .addGap(28, 28, 28))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(insertButton, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(50, 50, 50)
-                        .addComponent(viewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(50, 50, 50)
-                        .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(50, 50, 50)
-                        .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(121, 121, 121))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(limitLabel)
-                        .addGap(121, 121, 121))
-                    .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(290, 290, 290))
+                        .addGap(28, 28, 28))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -292,11 +293,16 @@ public class CrudUI extends javax.swing.JFrame {
 
         order *= (jCheckBox2.isSelected() ? -1 : 1);
 
+        onlyActive = jCheckBox1.isSelected();
+
+        limitTo = jSlider1.getValue();
+
         List<Customer> customers = dao.getCustomers(order, onlyActive, limitTo);
 
         DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
 
         dtm.getDataVector().removeAllElements();
+        jTable1.clearSelection();
 
         for (Customer c : customers) {
             dtm.addRow(new Object[]{
@@ -306,7 +312,7 @@ public class CrudUI extends javax.swing.JFrame {
                 c.getLast_name(),
                 c.getEmail(),
                 c.getAddress_id(),
-                c.isActive(),
+                (c.isActive() ? "YES" : "NO"),
                 c.getCreate_date(),
                 c.getLast_update()
             });
@@ -353,7 +359,7 @@ public class CrudUI extends javax.swing.JFrame {
                     null,
                     "Are you sure you want to delete this customer?\n"
                     + "ID: " + jTable1.getValueAt(i, 0) + "\n"
-                    + "Name:" + jTable1.getValueAt(i, 2) + " " + jTable1.getValueAt(i, 3) + "\n"
+                    + "Name: " + jTable1.getValueAt(i, 2) + " " + jTable1.getValueAt(i, 3) + "\n"
                     + "E-mail: " + jTable1.getValueAt(i, 4),
                     "DELETE CUSTOMER",
                     JOptionPane.YES_NO_OPTION,
@@ -401,7 +407,6 @@ public class CrudUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jCheckBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox1ItemStateChanged
-        onlyActive = !onlyActive;
         try {
             updateTable();
         } catch (SQLException ex) {
@@ -410,7 +415,6 @@ public class CrudUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBox1ItemStateChanged
 
     private void jCheckBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox2ItemStateChanged
-        order *= -1;
         try {
             updateTable();
         } catch (SQLException ex) {
@@ -432,13 +436,34 @@ public class CrudUI extends javax.swing.JFrame {
         } else {
             limitLabel.setText("Limit results to: " + jSlider1.getValue());
         }
-        limitTo = jSlider1.getValue();
         try {
             updateTable();
         } catch (SQLException ex) {
             Logger.getLogger(CrudUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jSlider1StateChanged
+
+    private void limitLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_limitLabelMouseClicked
+        if (evt.getClickCount() == 2) {
+            String op = JOptionPane.showInputDialog("Limit results to: ");
+
+            if (op != null) {
+                try {
+                    if (Integer.parseInt(op) < 0 || Integer.parseInt(op) > jSlider1.getMaximum()) {
+                        JOptionPane.showMessageDialog(null, "Insert a number between 0 - " + jSlider1.getMaximum(), "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        limitTo = Integer.parseInt(op);
+                        jSlider1.setValue(limitTo);
+                        updateTable();
+                    }
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "Insert only numbers!", "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (SQLException e) {
+                    Logger.getLogger(CrudUI.class.getName()).log(Level.SEVERE, null, e);
+                }
+            }
+        }
+    }//GEN-LAST:event_limitLabelMouseClicked
 
     /**
      * @param args the command line arguments
