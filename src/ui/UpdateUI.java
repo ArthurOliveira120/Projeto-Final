@@ -261,8 +261,7 @@ public class UpdateUI extends javax.swing.JFrame {
         if (firstNameField.getText().equals("")
                 || lastNameField.getText().equals("")
                 || emailField.getText().equals("")
-                || addressIdField.getText().equals("")
-                || (!jRadioButton1.isSelected() && !jRadioButton2.isSelected())) {
+                || addressIdField.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Enter all fields", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
             try {

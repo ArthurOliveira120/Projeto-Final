@@ -118,7 +118,7 @@ public class CustomerDAO {
         return c;
     }
     
-    public void updateCustomer(int id, Customer newCustomer) throws SQLException {
+    public void updateCustomer(int id, Customer c) throws SQLException {
         String sql = "update customer"
                 + " set store_id = ?,"
                 + " first_name = ?,"
@@ -130,12 +130,12 @@ public class CustomerDAO {
         
         PreparedStatement pst = con.prepareStatement(sql);
         
-        pst.setInt(1, newCustomer.getStore_id());
-        pst.setString(2, newCustomer.getFirst_name());
-        pst.setString(3, newCustomer.getLast_name());
-        pst.setString(4, newCustomer.getEmail());
-        pst.setInt(5, newCustomer.getAddress_id());
-        pst.setBoolean(6, newCustomer.isActive());
+        pst.setInt(1, c.getStore_id());
+        pst.setString(2, c.getFirst_name());
+        pst.setString(3, c.getLast_name());
+        pst.setString(4, c.getEmail());
+        pst.setInt(5, c.getAddress_id());
+        pst.setBoolean(6, c.isActive());
         pst.setInt(7, id);
         
         pst.execute();
@@ -155,8 +155,7 @@ public class CustomerDAO {
         pst.setInt(1, id);
         pst.execute();
         
-        sql = "delete from customer"
-                + " where customer_id = ?";
+        sql = "delete from customer where customer_id = ?";
         
         pst = con.prepareStatement(sql);
         pst.setInt(1, id);

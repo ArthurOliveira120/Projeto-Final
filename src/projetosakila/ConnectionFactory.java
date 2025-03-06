@@ -20,7 +20,7 @@ public class ConnectionFactory {
     public ConnectionFactory() {
         this.url = "jdbc:mysql://localhost/sakila";
         this.user = "root";
-        this.password = "arthur120";
+        this.password = "1234";
     }
     
     public Connection getConnection() throws SQLException {

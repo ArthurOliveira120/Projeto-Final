@@ -23,7 +23,7 @@ public class CrudUI extends javax.swing.JFrame {
     private int order;
     private boolean onlyActive;
     private int limitTo;
-
+    
     /**
      * Creates new form CrudUI
      */
@@ -291,7 +291,7 @@ public class CrudUI extends javax.swing.JFrame {
     public void updateTable() throws SQLException {
         order = jComboBox1.getSelectedIndex() + 1;
 
-        order *= (jCheckBox2.isSelected() ? -1 : 1);
+        if (jCheckBox2.isSelected()) order *= -1;
 
         onlyActive = jCheckBox1.isSelected();
 
@@ -445,21 +445,17 @@ public class CrudUI extends javax.swing.JFrame {
 
     private void limitLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_limitLabelMouseClicked
         if (evt.getClickCount() == 2) {
-            String op = JOptionPane.showInputDialog("Limit results to: ");
+            String op = JOptionPane.showInputDialog("Limit results to: \n(Maximum: "+jSlider1.getMaximum()+")");
 
-            if (op != null) {
+            if (op != null && !op.equals("")) {
                 try {
                     if (Integer.parseInt(op) < 0 || Integer.parseInt(op) > jSlider1.getMaximum()) {
                         JOptionPane.showMessageDialog(null, "Insert a number between 0 - " + jSlider1.getMaximum(), "Error", JOptionPane.ERROR_MESSAGE);
                     } else {
-                        limitTo = Integer.parseInt(op);
-                        jSlider1.setValue(limitTo);
-                        updateTable();
+                        jSlider1.setValue(Integer.parseInt(op));
                     }
                 } catch (NumberFormatException e) {
                     JOptionPane.showMessageDialog(null, "Insert only numbers!", "Error", JOptionPane.ERROR_MESSAGE);
-                } catch (SQLException e) {
-                    Logger.getLogger(CrudUI.class.getName()).log(Level.SEVERE, null, e);
                 }
             }
         }

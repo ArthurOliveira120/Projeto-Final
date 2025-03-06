@@ -34,15 +34,12 @@ public class Customer {
     }
     
     public Customer(int store_id, String first_name, String last_name, String email, int address_id, boolean active) {
-        this.customer_id = customer_id;
         this.store_id = store_id;
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;
         this.address_id = address_id;
         this.active = active;
-        this.create_date = create_date;
-        this.last_update = last_update;
     }
 
     /**
